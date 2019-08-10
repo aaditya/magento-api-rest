@@ -1,0 +1,33 @@
+{
+  "name": "magento-api-rest",
+  "version": "1.0.0-3",
+  "description": "A NodeJS wrapper to work with Magento 2.X APIs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aadityachakravarty/magento-client-node.git"
+  },
+  "keywords": [
+    "Magento",
+    "eCommerce",
+    "REST",
+    "API"
+  ],
+  "author": "Aaditya Chakravarty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aadityachakravarty/magento-client-node/issues"
+  },
+  "homepage": "https://github.com/aadityachakravarty/magento-client-node#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "oauth-1.0a": "^2.2.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  }
+}
