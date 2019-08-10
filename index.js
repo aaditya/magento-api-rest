@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const OAuth = require('oauth-1.0a');
 const axios = require('axios');
+const _url = require('url');
 
 const params_convert = require('./lib/url_query');
 
@@ -42,7 +43,43 @@ MagentoAPI.prototype._setDefaults = function (options) {
     this.accessToken = options.accessToken;
     this.accessTokenSecret = options.accessTokenSecret;
     this.magentoVersion = options.magentoVersion || 'V1';
+    this.isSsl = /^https/i.test(this.url);
 }
+
+/**
+ * Normalize query string for oAuth
+ *
+ * @param  {string} url
+ * @return {string}
+ */
+MagentoAPI.prototype._normalizeQueryString = function (url) {
+    // Exit if don't find query string
+    if (-1 === url.indexOf('?')) {
+        return url;
+    }
+
+    var query = _url.parse(url, true).query;
+    var params = [];
+    var queryString = '';
+
+    for (var p in query) {
+        params.push(p);
+    }
+    params.sort();
+
+    for (var i in params) {
+        if (queryString.length) {
+            queryString += '&';
+        }
+
+        queryString += encodeURIComponent(params[i]).replace(/%5B/g, '[')
+            .replace(/%5D/g, ']');
+        queryString += '=';
+        queryString += encodeURIComponent(query[params[i]]);
+    }
+
+    return url.split('?')[0] + '?' + queryString;
+};
 
 MagentoAPI.prototype._getOAuth = function (request_data) {
     var oauth = OAuth({
@@ -65,9 +102,16 @@ MagentoAPI.prototype._getOAuth = function (request_data) {
     return oauth.toHeader(oauth.authorize(request_data, token))
 }
 
+/**
+ * Form the full url to call
+ * @param {string} endpoint
+ */
 MagentoAPI.prototype._formURL = function (endpoint) {
-    let normalizeURL = this.url.split(-1) == '/' ? this.url : this.url + '/';
-    return `${normalizeURL}rest/${this.magentoVersion}/${endpoint}`;
+    let accessibleUrl = this.url.split(-1) == '/' ? this.url : this.url + '/';
+    if (!this.isSsl) {
+        endpoint = this._normalizeQueryString(endpoint);
+    }
+    return `${accessibleUrl}rest/${this.magentoVersion}/${endpoint}`;
 }
 
 MagentoAPI.prototype._request = function (request_data) {
@@ -84,11 +128,13 @@ MagentoAPI.prototype._request = function (request_data) {
 }
 
 MagentoAPI.prototype.query = function (method, endpoint, options = {}) {
-    if (options.params) {
-        let param_str = params_convert(options.params);
-        endpoint = endpoint.concat('?' + param_str);
-    } else {
-        endpoint = endpoint.concat('?searchCriteria=all');
+    if (method == 'GET') {
+        if (options.params) {
+            let param_str = params_convert(options.params);
+            endpoint = endpoint.concat('?' + param_str);
+        } else {
+            endpoint = endpoint.concat('?searchCriteria=all');
+        }
     }
     return this._request({
         method: method,

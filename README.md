@@ -63,8 +63,44 @@ var client = new MagentoAPI({
 This package uses axios to access the APIs, so every request uses Promises by default.
 
 ```js
+var options = {
+    "params": {
+        "filter_groups": [
+            {
+                "filters": [
+                    {
+                        "field": "created_at",
+                        "value": "2019-08-03 11:22:47",
+                        "condition_type": "from"
+                    },
+                    {   
+                        "field": "created_at",
+                        "value": "2020-08-03 11:22:47",
+                        "condition_type": "to"
+                    }
+                ]
+            }
+        ],
+        "sortOrders": [
+            {
+                "field": "created_at",
+                "direction": "desc"
+            }
+        ],
+        "pageSize": 200
+    },
+    "body": {
+
+    }
+}
+```
+To get more information as to how to form queries natively, use the following reference,
+<https://devdocs.magento.com/guides/v2.3/rest/performing-searches.html>.
+
+If you want to use the above object in a request,
+```js
 function getOrders () {
-   client.query('GET', 'orders').then((response) => {
+   client.query('GET', 'orders', options).then((response) => {
     //  Response Handling
    }).catch((error) => {
     //  Error Handling
@@ -76,7 +112,7 @@ or by async await,
 ```js
 async function getOrders () {
     try {
-        let response = await client.query('GET', 'orders');
+        let response = await client.query('GET', 'orders', options);
         // Response Handling
     } catch (e) {
         // Error Handling
