@@ -2,6 +2,9 @@
 
 A Node.js client wrapper to work with the Magento REST API. Interact with the API using this library. Still a work in progrss, if you end up using this library in your project, do contribute and help find issues which I may have missed.
 
+[![dependencies Status](https://david-dm.org/aadityachakravarty/magento-api-rest/status.svg)](https://david-dm.org/aadityachakravarty/magento-api-rest)
+[![npm version](https://img.shields.io/npm/v/woocommerce-api.svg)](https://www.npmjs.com/package/magento-api-rest)
+
 ## Installation
 
 ```
@@ -47,12 +50,17 @@ var client = new MagentoAPI({
 
 | Params             | Type       | Description                                                  |
 |--------------------|------------|--------------------------------------------------------------|
-| `method`           | `String`   | Magento API method, example: `GET` or `POST`                 |
+| `method`           | `String`   | API Access method, example: `GET` or `POST`                  |
 | `endpoint`         | `String`   | API Endpoint, example: `orders` or `products`                |
 | `options.params`   | `object`   | Refer to demo/search_query_object.json for example.          |
 | `options.body`     | `object`   | Body object to send data to PUT/POST requests.               |
 
+### QUERY
+
+- `.query(method, endpoint, options)`
+
 ### API
+
 This package uses axios to access the APIs, so every request uses Promises by default.
 
 ```js
