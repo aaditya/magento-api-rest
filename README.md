@@ -1,4 +1,4 @@
-# Magento API RESR - Node.js
+# Magento API REST - Node.js
 
 A Node.js client wrapper to work with the Magento REST API. Interact with the API using this library. Still a work in progrss, if you end up using this library in your project, do contribute and help find issues which I may have missed.
 
