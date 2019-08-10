@@ -11,10 +11,8 @@ npm i magento-api-rest
 ## Getting started
 
 Generate API credentials by following these instructions <https://devdocs.magento.com/guides/v2.3/get-started/create-integration.html>.
-.
 
 Make sure to check the resource access is as per your requirements to prevent misuse of the API Keys.
-.
 
 Check out the Magento API endpoints and data that can be manipulated in <https://devdocs.magento.com/redoc/2.3/index.html>.
 
