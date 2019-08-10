@@ -51,7 +51,7 @@ var client = new MagentoAPI({
 |--------------------|------------|--------------------------------------------------------------|
 | `method`           | `String`   | API Access method, example: `GET` or `POST`                  |
 | `endpoint`         | `String`   | API Endpoint, example: `orders` or `products`                |
-| `options.params`   | `object`   | Refer to demo/search_query_object.json for example.          |
+| `options.params`   | `object`   | Params object to send data as part of url, example below.    |
 | `options.body`     | `object`   | Body object to send data to PUT/POST requests.               |
 
 ### QUERY
