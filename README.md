@@ -38,7 +38,7 @@ var client = new MagentoAPI({
 
 | Option              | Type      | Required | Description                                                |
 |---------------------|-----------|----------| -----------------------------------------------------------|
-| `url`               | `String`  | yes      | Your Store URL, example: http://magento.dev/               |
+| `url`               | `String`  | yes      | Your Store URL, example: http://demo-acm-2.bird.eu         |
 | `consumerKey`       | `String`  | yes      | Your API consumer key                                      |
 | `consumerSecret`    | `String`  | yes      | Your API consumer secret                                   |
 | `accessToken`       | `String`  | yes      | Your API Access Token                                      |
