@@ -1,16 +1,19 @@
-# Magento API - Node.js Client
+# Magento API RESR - Node.js
 
-A Node.js client for the Magento REST API. Easily interact with the Magento REST API using this library.
+A Node.js client wrapper to work with the Magento REST API. Interact with the API using this library. Still a work in progrss, if you end up using this library in your project, do contribute and help find issues which I may have missed.
 
 ## Installation
 
 ```
-npm install --save magento-api-rest
+npm i magento-api-rest
 ```
 
 ## Getting started
 
-Generate API credentials by following these instructions <https://devdocs.magento.com/guides/v2.3/get-started/create-integration.html>
+Generate API credentials by following these instructions <https://devdocs.magento.com/guides/v2.3/get-started/create-integration.html>.
+.
+
+Make sure to check the resource access is as per your requirements to prevent misuse of the API Keys.
 .
 
 Check out the Magento API endpoints and data that can be manipulated in <https://devdocs.magento.com/redoc/2.3/index.html>.
