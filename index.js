@@ -5,6 +5,37 @@ const axios = require('axios');
 const params_convert = require('./lib/url_query');
 
 function MagentoAPI(options) {
+    if (!(this instanceof MagentoAPI)) {
+        return new MagentoAPI(options);
+    }
+
+    options = options || {};
+
+    if (!(options.url)) {
+        throw new Error('url is required');
+    }
+
+    if (!(options.consumerKey)) {
+        throw new Error('consumerKey is required');
+    }
+
+    if (!(options.consumerSecret)) {
+        throw new Error('consumerSecret is required');
+    }
+
+    if (!(options.accessToken)) {
+        throw new Error('accessToken is required');
+    }
+
+    if (!(options.accessTokenSecret)) {
+        throw new Error('accessTokenSecret is required');
+    }
+
+    this.clientVersion = require('./package.json').version;
+    this._setDefaults(options);
+}
+
+MagentoAPI.prototype._setDefaults = function (options) {
     this.url = options.url;
     this.consumerKey = options.consumerKey;
     this.consumerSecret = options.consumerSecret;
@@ -52,18 +83,17 @@ MagentoAPI.prototype._request = function (request_data) {
     })
 }
 
-MagentoAPI.prototype.query = function (method, endpoint, params, body) {
-    if (params) {
-        let param_str = params_convert(params);
+MagentoAPI.prototype.query = function (method, endpoint, options = {}) {
+    if (options.params) {
+        let param_str = params_convert(options.params);
         endpoint = endpoint.concat('?' + param_str);
     } else {
-        body = params;
-        endpoint = endpoint.concat('?searchCriteria=all')
+        endpoint = endpoint.concat('?searchCriteria=all');
     }
     return this._request({
         method: method,
         url: endpoint,
-        body: body
+        body: options.body
     })
 }
 
