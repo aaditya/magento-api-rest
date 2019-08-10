@@ -60,7 +60,7 @@ var client = new MagentoAPI({
 
 ### API
 
-This package uses axios to access the APIs, so every request uses Promises by default.
+Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
 
 ```js
 var options = {
