@@ -3,7 +3,7 @@ const OAuth = require('oauth-1.0a');
 const axios = require('axios');
 const _url = require('url');
 
-const params_convert = require('./lib/url_query');
+const params_convert = require('./lib/param_url');
 
 function MagentoAPI(options) {
     if (!(this instanceof MagentoAPI)) {
