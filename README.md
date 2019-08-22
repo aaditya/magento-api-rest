@@ -1,6 +1,6 @@
-# Magento API REST - Node.js
+# Magento API REST
 
-A Node.js client wrapper to work with the Magento REST API. Interact with the API using this library. Still a work in progrss, if you end up using this library in your project, do contribute and help find issues which I may have missed.
+A Node.js client wrapper to work with the Magento REST API.
 
 [![npm version](https://badge.fury.io/js/magento-api-rest.svg)](https://www.npmjs.com/package/magento-api-rest)
 [![dependencies Status](https://david-dm.org/aadityachakravarty/magento-api-rest/status.svg)](https://david-dm.org/aadityachakravarty/magento-api-rest)
@@ -21,7 +21,9 @@ Check out the Magento API endpoints and data that can be manipulated in <https:/
 
 ## Setup
 
-Setup for the new Magento REST API integration (Magento 2.0 or later):
+* Note: Magento 2.2 is also compatible with this package however some APIs from 2.3 don't exist in 2.2.
+
+Setup for the new Magento REST API integration (Magento 2.3 or later):
 
 ```js
 var MagentoAPI = require('magento-api-rest');
@@ -31,7 +33,7 @@ var client = new MagentoAPI({
     'consumerKey': '<OAuth 1.0a consumer key>',
     'consumerSecret': '<OAuth 1.0a consumer secret>',
     'accessToken': '<OAuth 1.0a access token>',
-    'accessTokenSecret': '<OAuth 1.0a access token secret>'
+    'tokenSecret': '<OAuth 1.0a token secret>'
 })
 ```
 
@@ -43,10 +45,33 @@ var client = new MagentoAPI({
 | `consumerKey`       | `String`  | yes      | Your API consumer key                                      |
 | `consumerSecret`    | `String`  | yes      | Your API consumer secret                                   |
 | `accessToken`       | `String`  | yes      | Your API Access Token                                      |
-| `accessTokenSecret` | `String`  | yes      | Your API Access Token Secret                               |
+| `tokenSecret`       | `String`  | yes      | Your API Access Token Secret                               |
 | `version`           | `String`  | no       | Magento REST API version, default is `V1`                  |
 
 ## Methods
+
+### GET
+
+- `.get(endpoint)`
+- `.get(endpoint, params)`
+
+| Params     | Type     | Description                                                   |
+|------------|----------|---------------------------------------------------------------|
+| `endpoint` | `String` | Magento API endpoint, example: `orders`                       |
+| `params`   | `Object` | Query strings params                                          |
+
+### POST
+
+- `.post(endpoint, data)`
+
+| Params     | Type     | Description                                                 |
+|------------|----------|-------------------------------------------------------------|
+| `endpoint` | `String` | Magento API endpoint, `shipments`                           |
+| `data`     | `Object` | JSON object to be sent as body.                             |
+
+### QUERY
+
+- `.query(method, endpoint, options)`
 
 | Params             | Type       | Description                                                  |
 |--------------------|------------|--------------------------------------------------------------|
@@ -54,10 +79,6 @@ var client = new MagentoAPI({
 | `endpoint`         | `String`   | API Endpoint, example: `orders` or `products`                |
 | `options.params`   | `object`   | Params object to send data as part of url, example below.    |
 | `options.body`     | `object`   | Body object to send data to PUT/POST requests.               |
-
-### QUERY
-
-- `.query(method, endpoint, options)`
 
 ### API
 
@@ -73,7 +94,9 @@ var options = {
                         "field": "created_at",
                         "value": "2019-08-03 11:22:47",
                         "condition_type": "from"
-                    },
+                    }
+                ],
+                "filters": [
                     {   
                         "field": "created_at",
                         "value": "2020-08-03 11:22:47",
@@ -89,9 +112,6 @@ var options = {
             }
         ],
         "pageSize": 200
-    },
-    "body": {
-
     }
 }
 ```
@@ -121,9 +141,18 @@ async function getOrders () {
 }
 ```
 
-## Release History
+## Build History
 
+- 2019-08-22 - v1.0.0-6 - Fixed Post APIs body and partially added separate rest functions.
+- 2019-08-10 - v1.0.0-5 - Added Experimental Parser
 - 2019-08-10 - v1.0.0-4 - Added Test Cases and added information to README.
 - 2019-08-10 - v1.0.0-3 - Miscellaneous Edits
 - 2019-08-09 - v1.0.0-2 - Setup for axios and OAuth.
-- 2019-08-08 - v1.0.0 - Initial Release.
+- 2019-08-08 - v1.0.0-1 - Initial API Setup.
+
+## To Do
+
+* Set up a demo store.
+* Add test cases and write current ones correctly.
+* Add other rest functions as per magento docs.
+* Set up the Search Parser

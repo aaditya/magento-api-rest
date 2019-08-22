@@ -1,10 +1,10 @@
 {
   "name": "magento-api-rest",
   "version": "1.0.0-5",
-  "description": "A NodeJS wrapper to work with Magento 2.X APIs.",
+  "description": "A NodeJS wrapper to work with Magento 2 REST APIs.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

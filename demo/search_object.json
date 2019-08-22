@@ -6,7 +6,11 @@
                     "field": "created_at",
                     "value": "2019-08-03 11:22:47",
                     "condition_type": "from"
-                },
+                }
+            ]
+        },
+        {
+            "filters": [
                 {
                     "field": "created_at",
                     "value": "2020-08-03 11:22:47",

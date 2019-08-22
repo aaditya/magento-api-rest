@@ -8,13 +8,11 @@ const client = new MagentoAPI({
     'accessTokenSecret': '<OAuth 1.0a access token secret>'
 })
 
-const getOrders = async () => {
+(async () => {
     try {
-        let response = await client.query('GET', 'orders');
+        let response = await client.get('orders');
         console.log(response.data)
     } catch (e) {
         console.log(e);
     }
-}
-
-getOrders();
+})();

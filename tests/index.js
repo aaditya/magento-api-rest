@@ -2,8 +2,6 @@ var Magento = require('../index.js');
 var chai = require('chai');
 var nock = require('nock');
 
-var demo_credentials = require('../demo/credentials.json');
-
 describe('#Construct', function () {
     it('should throw an error if the url, consumerKey, consumerSecret, accessToken or accessTokenSecret are missing', function () {
         chai.expect(function () {
@@ -17,7 +15,7 @@ describe('#Construct', function () {
             'consumerKey': '<OAuth 1.0a consumer key>',
             'consumerSecret': '<OAuth 1.0a consumer secret>',
             'accessToken': '<OAuth 1.0a access token>',
-            'accessTokenSecret': '<OAuth 1.0a access token secret>',
+            'tokenSecret': '<OAuth 1.0a access token secret>',
             'magentoVersion': 'V1'
         });
 
@@ -30,36 +28,36 @@ describe('#Requests', function () {
         nock.cleanAll();
     });
 
-    var client = new Magento(demo_credentials);
+    // var client = new Magento();
 
-    it('should return full API url', function () {
-        var endpoint = 'orders';
-        var expected = demo_credentials.url + '/rest/V1/orders';
-        var url = client._formURL(endpoint);
+    // it('should return full API url', function () {
+    //     var endpoint = 'orders';
+    //     var expected = demo_credentials.url + '/rest/V1/orders';
+    //     var url = client._formURL(endpoint);
 
-        chai.assert.equal(url, expected);
-    });
+    //     chai.assert.equal(url, expected);
+    // });
 
-    it('should return content for get requests', function (done) {
-        this.timeout(20000);
-        client.query('GET', 'orders').then((response) => {
-            chai.expect(response.data).to.be.an.object;
-            done();
-        }).catch((err) => {
-            chai.expect(err).to.exist;
-            done();
-        })
-    });
+    // it('should return content for get requests', function (done) {
+    //     this.timeout(20000);
+    //     client.query('GET', 'orders').then((response) => {
+    //         chai.expect(response.data).to.be.an.object;
+    //         done();
+    //     }).catch((err) => {
+    //         chai.expect(err).to.exist;
+    //         done();
+    //     })
+    // });
 
-    it('should match params object in request and response', function (done) {
-        this.timeout(20000);
-        let params = require('./searches').combined_search;
-        client.query('GET', 'orders', { params: params }).then((response) => {
-            chai.expect(response.data.search_criteria).to.eql(params);
-            done();
-        }).catch((err) => {
-            chai.expect(err).to.exist;
-            done();
-        })
-    });
+    // it('should match params object in request and response', function (done) {
+    //     this.timeout(20000);
+    //     let params = require('./searches').combined_search;
+    //     client.query('GET', 'orders', { params: params }).then((response) => {
+    //         chai.expect(response.data.search_criteria).to.eql(params);
+    //         done();
+    //     }).catch((err) => {
+    //         chai.expect(err).to.exist;
+    //         done();
+    //     })
+    // });
 });

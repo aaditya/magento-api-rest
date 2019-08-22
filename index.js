@@ -28,8 +28,8 @@ function MagentoAPI(options) {
         throw new Error('accessToken is required');
     }
 
-    if (!(options.accessTokenSecret)) {
-        throw new Error('accessTokenSecret is required');
+    if (!(options.tokenSecret)) {
+        throw new Error('tokenSecret is required');
     }
 
     this.clientVersion = require('./package.json').version;
@@ -41,9 +41,9 @@ MagentoAPI.prototype._setDefaults = function (options) {
     this.consumerKey = options.consumerKey;
     this.consumerSecret = options.consumerSecret;
     this.accessToken = options.accessToken;
-    this.accessTokenSecret = options.accessTokenSecret;
+    this.tokenSecret = options.tokenSecret;
     this.magentoVersion = options.magentoVersion || 'V1';
-    this.isSsl = /^https/i.test(this.url);
+    this.isSsl = /^https:\/\//i.test(this.url);
 }
 
 /**
@@ -97,7 +97,7 @@ MagentoAPI.prototype._getOAuth = function (request_data) {
     });
     var token = {
         key: this.accessToken,
-        secret: this.accessTokenSecret
+        secret: this.tokenSecret
     };
     return oauth.toHeader(oauth.authorize(request_data, token))
 }
@@ -111,23 +111,31 @@ MagentoAPI.prototype._formURL = function (endpoint) {
     if (!this.isSsl) {
         endpoint = this._normalizeQueryString(endpoint);
     }
-    return `${accessibleUrl}rest/${this.magentoVersion}/${endpoint}`;
+    return accessibleUrl + 'rest/' + this.magentoVersion + '/' + endpoint;
 }
 
-MagentoAPI.prototype._request = function (request_data) {
-    request_data.url = this._formURL(request_data.url);
+MagentoAPI.prototype._request = function (method, endpoint, body) {
+    let request_data = {
+        method: method,
+        url: this._formURL(endpoint),
+        body: body
+    }
     return axios({
+        method: method,
         url: request_data.url,
-        method: request_data.method,
         headers: {
             'Authorization': this._getOAuth(request_data).Authorization,
             'Content-Type': 'application/json'
         },
-        body: request_data.body
+        data: body
     })
 }
 
+/**
+ * Remove this Function after version 1.0.0 release.
+ */
 MagentoAPI.prototype.query = function (method, endpoint, options = {}) {
+    console.warn('MagentoAPI Query function is deprecated. Use the respective restful functions instead.')
     if (method == 'GET') {
         if (options.params) {
             let param_str = params_convert(options.params);
@@ -136,11 +144,44 @@ MagentoAPI.prototype.query = function (method, endpoint, options = {}) {
             endpoint = endpoint.concat('?searchCriteria=all');
         }
     }
-    return this._request({
-        method: method,
-        url: endpoint,
-        body: options.body
-    })
+    return this._request(method, endpoint, options.body);
+}
+
+/**
+ * Search Parameter Translator
+ */
+MagentoAPI.prototype._searches = function (params) {
+    if (params) {
+        let param_str = params_convert(params);
+        return param_str;
+    } else {
+        return 'searchCriteria=all';
+    }
+}
+
+/**
+* GET requests
+  *
+  * @param  {String} endpoint
+  * @param  {Object} params
+  *
+  * @return {Promise}
+*/
+MagentoAPI.prototype.get = function (endpoint, params) {
+    endpoint = endpoint + '?' + this._searches(params);
+    return this._request('GET', endpoint);
+}
+
+/**
+   * POST requests
+   *
+   * @param  {String} endpoint
+   * @param  {Object} data
+   *
+   * @return {Promise}
+   */
+MagentoAPI.prototype.post = function (endpoint, data) {
+    return this._request('POST', endpoint, data);
 }
 
 module.exports = MagentoAPI;
