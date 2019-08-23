@@ -4,6 +4,7 @@ const axios = require('axios');
 const _url = require('url');
 
 const params_convert = require('./lib/param_url');
+const params_parser = require('./lib/param_parser');
 
 function MagentoAPI(options) {
     if (!(this instanceof MagentoAPI)) {
@@ -150,9 +151,14 @@ MagentoAPI.prototype.query = function (method, endpoint, options = {}) {
 /**
  * Search Parameter Translator
  */
-MagentoAPI.prototype._searches = function (params) {
+MagentoAPI.prototype._searches = function (params, parser) {
     if (params) {
-        let param_str = params_convert(params);
+        let param_str;
+        if (parser) {
+            param_str = params_parser(params);
+        } else {
+            param_str = params_convert(params);
+        }
         return param_str;
     } else {
         return 'searchCriteria=all';
@@ -160,28 +166,41 @@ MagentoAPI.prototype._searches = function (params) {
 }
 
 /**
-* GET requests
-  *
-  * @param  {String} endpoint
-  * @param  {Object} params
-  *
-  * @return {Promise}
-*/
-MagentoAPI.prototype.get = function (endpoint, params) {
-    endpoint = endpoint + '?' + this._searches(params);
+ * GET requests
+ *
+ * @param  {String} endpoint
+ * @param  {Object} params
+ *
+ * @return {Promise}
+ */
+MagentoAPI.prototype.get = function (endpoint, params, parser = false) {
+    endpoint = endpoint + '?' + this._searches(params, parser);
     return this._request('GET', endpoint);
 }
 
 /**
-   * POST requests
-   *
-   * @param  {String} endpoint
-   * @param  {Object} data
-   *
-   * @return {Promise}
-   */
+ * POST requests
+ *
+ * @param  {String} endpoint
+ * @param  {Object} data
+ *
+ * @return {Promise}
+ */
 MagentoAPI.prototype.post = function (endpoint, data) {
     return this._request('POST', endpoint, data);
+}
+
+/**
+ * PUT requests
+ *
+ * @param  {String} endpoint
+ * @param  {Object} data
+ * @param  {Object} params
+ *
+ * @return {Object}
+ */
+MagentoAPI.prototype.put = function (endpoint, data) {
+    return this._request('PUT', endpoint, data);
 }
 
 module.exports = MagentoAPI;

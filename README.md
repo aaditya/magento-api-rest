@@ -41,7 +41,7 @@ var client = new MagentoAPI({
 
 | Option              | Type      | Required | Description                                                |
 |---------------------|-----------|----------| -----------------------------------------------------------|
-| `url`               | `String`  | yes      | Your Store URL, example: http://demo-acm-2.bird.eu         |
+| `url`               | `String`  | yes      | Your Store URL                                             |
 | `consumerKey`       | `String`  | yes      | Your API consumer key                                      |
 | `consumerSecret`    | `String`  | yes      | Your API consumer secret                                   |
 | `accessToken`       | `String`  | yes      | Your API Access Token                                      |
@@ -66,10 +66,10 @@ var client = new MagentoAPI({
 
 | Params     | Type     | Description                                                 |
 |------------|----------|-------------------------------------------------------------|
-| `endpoint` | `String` | Magento API endpoint, `shipments`                           |
+| `endpoint` | `String` | Magento API endpoint, example: `shipments`                  |
 | `data`     | `Object` | JSON object to be sent as body.                             |
 
-### QUERY
+### QUERY (Deprecated)
 
 - `.query(method, endpoint, options)`
 
@@ -85,34 +85,32 @@ var client = new MagentoAPI({
 Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
 
 ```js
-var options = {
-    "params": {
-        "filter_groups": [
-            {
-                "filters": [
-                    {
-                        "field": "created_at",
-                        "value": "2019-08-03 11:22:47",
-                        "condition_type": "from"
-                    }
-                ],
-                "filters": [
-                    {   
-                        "field": "created_at",
-                        "value": "2020-08-03 11:22:47",
-                        "condition_type": "to"
-                    }
-                ]
-            }
-        ],
-        "sortOrders": [
-            {
-                "field": "created_at",
-                "direction": "desc"
-            }
-        ],
-        "pageSize": 200
-    }
+var params = {
+    "filter_groups": [
+        {
+            "filters": [
+                {
+                    "field": "created_at",
+                    "value": "2019-08-03 11:22:47",
+                    "condition_type": "from"
+                }
+            ],
+            "filters": [
+                {   
+                    "field": "created_at",
+                    "value": "2020-08-03 11:22:47",
+                    "condition_type": "to"
+                }
+            ]
+        }
+    ],
+    "sortOrders": [
+        {
+            "field": "created_at",
+            "direction": "desc"
+        }
+    ],
+    "pageSize": 200
 }
 ```
 To get more information as to how to form queries natively, use the following reference,
@@ -121,7 +119,7 @@ To get more information as to how to form queries natively, use the following re
 If you want to use the above object in a request,
 ```js
 function getOrders () {
-   client.query('GET', 'orders', options).then((response) => {
+   client.get('orders', params).then((response) => {
     //  Response Handling
    }).catch((error) => {
     //  Error Handling
@@ -133,7 +131,7 @@ or by async await,
 ```js
 async function getOrders () {
     try {
-        let response = await client.query('GET', 'orders', options);
+        let response = await client.get('orders', params);
         // Response Handling
     } catch (e) {
         // Error Handling
@@ -152,7 +150,5 @@ async function getOrders () {
 
 ## To Do
 
-* Set up a demo store.
 * Add test cases and write current ones correctly.
 * Add other rest functions as per magento docs.
-* Set up the Search Parser
