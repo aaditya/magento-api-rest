@@ -3,8 +3,8 @@ const OAuth = require('oauth-1.0a');
 const axios = require('axios');
 const _url = require('url');
 
-const params_convert = require('./lib/param_url');
-const params_parser = require('./lib/param_parser');
+const params_convert = require('./lib/param_parser');
+const params_url = require('./lib/param_url');
 
 function MagentoAPI(options) {
     if (!(this instanceof MagentoAPI)) {
@@ -133,33 +133,16 @@ MagentoAPI.prototype._request = function (method, endpoint, body) {
 }
 
 /**
- * Remove this Function after version 1.0.0 release.
- */
-MagentoAPI.prototype.query = function (method, endpoint, options = {}) {
-    console.warn('MagentoAPI Query function is deprecated. Use the respective restful functions instead.')
-    if (method == 'GET') {
-        if (options.params) {
-            let param_str = params_convert(options.params);
-            endpoint = endpoint.concat('?' + param_str);
-        } else {
-            endpoint = endpoint.concat('?searchCriteria=all');
-        }
-    }
-    return this._request(method, endpoint, options.body);
-}
-
-/**
  * Search Parameter Translator
  */
-MagentoAPI.prototype._searches = function (params, parser) {
-    if (params) {
-        let param_str;
-        if (parser) {
-            param_str = params_parser(params);
-        } else {
-            param_str = params_convert(params);
-        }
-        return param_str;
+MagentoAPI.prototype._searches = function (params) {
+    let keys = Object.keys(params);
+    let antiTrigger = ["filter_groups", "filterGroups", "sort_orders", "sortOrders", "page_size", "pageSize"]
+    let parserTrigger = keys.filter(val => antiTrigger.includes(val));
+
+    if (params || params != null) {
+        let param_str = parserTrigger.length > 0 ? params_url : params_convert;
+        return param_str(params);
     } else {
         return 'searchCriteria=all';
     }
@@ -173,8 +156,8 @@ MagentoAPI.prototype._searches = function (params, parser) {
  *
  * @return {Promise}
  */
-MagentoAPI.prototype.get = function (endpoint, params, parser = false) {
-    endpoint = endpoint + '?' + this._searches(params, parser);
+MagentoAPI.prototype.get = function (endpoint, params) {
+    endpoint = endpoint + '?' + this._searches(params);
     return this._request('GET', endpoint);
 }
 
@@ -201,6 +184,31 @@ MagentoAPI.prototype.post = function (endpoint, data) {
  */
 MagentoAPI.prototype.put = function (endpoint, data) {
     return this._request('PUT', endpoint, data);
+}
+
+/**
+  * DELETE requests
+  *
+  * @param  {String} endpoint
+  * @param  {Object} params
+  * @param  {Object} params
+  *
+  * @return {Object}
+  */
+MagentoAPI.prototype.delete = function (endpoint) {
+    return this._request('DELETE', endpoint, null);
+}
+
+/**
+ * OPTIONS requests
+ *
+ * @param  {String} endpoint
+ * @param  {Object} params
+ *
+ * @return {Object}
+ */
+MagentoAPI.prototype.options = function (endpoint) {
+    return this._request('OPTIONS', endpoint, null);
 }
 
 module.exports = MagentoAPI;

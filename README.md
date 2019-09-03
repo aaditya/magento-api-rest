@@ -19,9 +19,9 @@ Make sure to check the resource access is as per your requirements to prevent mi
 
 Check out the Magento API endpoints and data that can be manipulated in <https://devdocs.magento.com/redoc/2.3/index.html>.
 
-## Setup
+* The above documentation is for Magento 2.3, latest at the time of making this package. Should be compatible with Magento 2.0 and above.
 
-* Note: Magento 2.2 is also compatible with this package however some APIs from 2.3 don't exist in 2.2.
+## Setup
 
 Setup for the new Magento REST API integration (Magento 2.3 or later):
 
@@ -33,7 +33,7 @@ var client = new MagentoAPI({
     'consumerKey': '<OAuth 1.0a consumer key>',
     'consumerSecret': '<OAuth 1.0a consumer secret>',
     'accessToken': '<OAuth 1.0a access token>',
-    'tokenSecret': '<OAuth 1.0a token secret>'
+    'tokenSecret': '<OAuth 1.0a access token secret>'
 })
 ```
 
@@ -58,7 +58,7 @@ var client = new MagentoAPI({
 | Params     | Type     | Description                                                   |
 |------------|----------|---------------------------------------------------------------|
 | `endpoint` | `String` | Magento API endpoint, example: `orders`                       |
-| `params`   | `Object` | Query strings params                                          |
+| `params`   | `Object` | JSON object to be sent as params.                             |
 
 ### POST
 
@@ -69,16 +69,31 @@ var client = new MagentoAPI({
 | `endpoint` | `String` | Magento API endpoint, example: `shipments`                  |
 | `data`     | `Object` | JSON object to be sent as body.                             |
 
-### QUERY (Deprecated)
+### PUT
 
-- `.query(method, endpoint, options)`
+- `.put(endpoint, data)`
 
-| Params             | Type       | Description                                                  |
-|--------------------|------------|--------------------------------------------------------------|
-| `method`           | `String`   | API Access method, example: `GET` or `POST`                  |
-| `endpoint`         | `String`   | API Endpoint, example: `orders` or `products`                |
-| `options.params`   | `object`   | Params object to send data as part of url, example below.    |
-| `options.body`     | `object`   | Body object to send data to PUT/POST requests.               |
+| Params     | Type     | Description                                                 |
+|------------|----------|-------------------------------------------------------------|
+| `endpoint` | `String` | Magento API endpoint, example: `shipments/12`               |
+| `data`     | `Object` | JSON object to be sent as body.                             |
+
+### DELETE
+
+- `.delete(endpoint)`
+
+| Params     | Type     | Description                                                     |
+|------------|----------|-----------------------------------------------------------------|
+| `endpoint` | `String` | Magento API endpoint, example: `orders/12`                      |
+
+### OPTIONS
+
+- `.options(endpoint)`
+
+| Params     | Type     | Description                                                     |
+|------------|----------|-----------------------------------------------------------------|
+| `endpoint` | `String` | Magento API endpoint, example: `customers/1` or `orders/14`     |
+
 
 ### API
 
@@ -113,6 +128,21 @@ var params = {
     "pageSize": 200
 }
 ```
+Or, you can use the inbuilt parser to write the above query as:
+```js
+var params = {
+    "$or": [
+        { "created_at": "2019-08-03 11:22:47" },
+        { "created_at": "2020-08-03 11:22:47" }
+    ],
+    "$sort": {
+        "created_at": "desc"
+    },
+    "$page": 200
+}
+```
+* Note: You cannot use both the param writing styles together or it will cause Error 500 on your store.
+
 To get more information as to how to form queries natively, use the following reference,
 <https://devdocs.magento.com/guides/v2.3/rest/performing-searches.html>.
 
@@ -141,6 +171,7 @@ async function getOrders () {
 
 ## Build History
 
+- 2019-09-03 - v1.0.0 - Added support for remaning REST functions, removed QUERY function, added parser support.
 - 2019-08-22 - v1.0.0-6 - Fixed Post APIs body and partially added separate rest functions.
 - 2019-08-10 - v1.0.0-5 - Added Experimental Parser
 - 2019-08-10 - v1.0.0-4 - Added Test Cases and added information to README.
@@ -151,4 +182,4 @@ async function getOrders () {
 ## To Do
 
 * Add test cases and write current ones correctly.
-* Add other rest functions as per magento docs.
+* Add documentation for parser before release.
