@@ -143,6 +143,20 @@ var params = {
 ```
 * Note: You cannot use both the param writing styles together or it will cause Error 500 on your store.
 
+#### Parser Operators
+
+| Operator | Description |
+|---|---|
+| $or | Execute OR queries. |
+| $from | Starting point of order search via ISO date. |
+| $to | Starting point of order search via ISO date. |
+| $after | Search after a specific ISO date. |
+| $before | Search before a specific ISO date. |
+| $sort | Sort the orders, see docs for more. |
+| $page | Specifies the per page orders. |
+
+* By default { key: value } translates to an "eq" operation where key = value.
+
 To get more information as to how to form queries natively, use the following reference,
 <https://devdocs.magento.com/guides/v2.3/rest/performing-searches.html>.
 
@@ -181,5 +195,4 @@ async function getOrders () {
 
 ## To Do
 
-* Add test cases and write current ones correctly.
-* Add documentation for parser before release.
+* Add test cases.
