@@ -29,7 +29,7 @@ Setup for the new Magento REST API integration (Magento 2.3 or later):
 var MagentoAPI = require('magento-api-rest');
 
 var client = new MagentoAPI({
-    'url': 'http://www.test.com/index.php/rest',
+    'url': 'http://www.test.com',
     'consumerKey': '<OAuth 1.0a consumer key>',
     'consumerSecret': '<OAuth 1.0a consumer secret>',
     'accessToken': '<OAuth 1.0a access token>',
@@ -47,6 +47,8 @@ var client = new MagentoAPI({
 | `accessToken`       | `String`  | yes      | Your API Access Token                                      |
 | `tokenSecret`       | `String`  | yes      | Your API Access Token Secret                               |
 | `version`           | `String`  | no       | Magento REST API version, default is `V1`                  |
+
+If you want to use the [asynchronous Endpoints](https://devdocs.magento.com/guides/v2.3/rest/asynchronous-web-endpoints.html) set `version` to `async/V1`.
 
 ## Methods
 
