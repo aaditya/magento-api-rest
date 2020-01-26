@@ -1,6 +1,6 @@
 {
   "name": "magento-api-rest",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A NodeJS wrapper to work with Magento 2 REST APIs.",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,14 @@
   },
   "keywords": [
     "Magento",
+    "Magento2",
     "eCommerce",
     "REST",
-    "API"
+    "API",
+    "JS",
+    "NodeJS",
+    "Javascript",
+    "JSON"
   ],
   "author": "Aaditya Chakravarty",
   "license": "MIT",
@@ -23,7 +28,7 @@
   },
   "homepage": "https://github.com/aadityachakravarty/magento-api-rest#readme",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "oauth-1.0a": "^2.2.6"
   },
   "devDependencies": {

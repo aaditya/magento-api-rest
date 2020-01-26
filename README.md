@@ -19,16 +19,16 @@ Make sure to check the resource access is as per your requirements to prevent mi
 
 Check out the Magento API endpoints and data that can be manipulated in <https://devdocs.magento.com/redoc/2.3/index.html>.
 
-* The above documentation is for Magento 2.3, latest at the time of making this package. Should be compatible with Magento 2.0 and above.
+* The above documentation is for Magento 2.3, latest at the time of making this package. Should be compatible with Magento 2.2 as well.
 
 ## Setup
 
 Setup for the new Magento REST API integration (Magento 2.3 or later):
 
 ```js
-var MagentoAPI = require('magento-api-rest');
+const MagentoAPI = require('magento-api-rest');
 
-var client = new MagentoAPI({
+const client = new MagentoAPI({
     'url': 'http://www.test.com',
     'consumerKey': '<OAuth 1.0a consumer key>',
     'consumerSecret': '<OAuth 1.0a consumer secret>',
@@ -61,6 +61,9 @@ If you want to use the [asynchronous Endpoints](https://devdocs.magento.com/guid
 |------------|----------|---------------------------------------------------------------|
 | `endpoint` | `String` | Magento API endpoint, example: `orders`                       |
 | `params`   | `Object` | JSON object to be sent as params.                             |
+
+* Note: In case no params are specified or required, you can leave params as empty. 
+That will result in "?searchCriteria=all" in the URL. 
 
 ### POST
 
@@ -102,7 +105,7 @@ If you want to use the [asynchronous Endpoints](https://devdocs.magento.com/guid
 Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
 
 ```js
-var params = {
+let params = {
     "filter_groups": [
         {
             "filters": [
@@ -127,35 +130,38 @@ var params = {
             "direction": "desc"
         }
     ],
-    "pageSize": 200
+    "pageSize": 200,
+    "currentPage": 1
 }
 ```
 Or, you can use the inbuilt parser to write the above query as:
 ```js
-var params = {
-    "$or": [
-        { "created_at": "2019-08-03 11:22:47" },
-        { "created_at": "2020-08-03 11:22:47" }
+let params = {
+    $or: [
+        { $from: "2019-08-03 11:22:47" },
+        { $to: "2020-08-03 11:22:47" }
     ],
-    "$sort": {
+    $sort: {
         "created_at": "desc"
     },
-    "$page": 200
+    $perPage: 200,
+    $page: 1
 }
 ```
-* Note: You cannot use both the param writing styles together or it will cause Error 500 on your store.
+* Note: You cannot use both the param writing styles together.
 
 #### Parser Operators
 
 | Operator | Description |
 |---|---|
 | $or | Execute OR queries. |
-| $from | Starting point of order search via ISO date. |
+| $from | Starting point of order search via ISO date. Requires $to. |
 | $to | Starting point of order search via ISO date. |
 | $after | Search after a specific ISO date. |
 | $before | Search before a specific ISO date. |
 | $sort | Sort the orders, see docs for more. |
-| $page | Specifies the per page orders. |
+| $perPage | Specifies the per page orders. |
+| $page | Specifies the current page. |
 
 * By default { key: value } translates to an "eq" operation where key = value.
 
@@ -187,6 +193,8 @@ async function getOrders () {
 
 ## Build History
 
+- 2020-01-26 - v1.1.1 - Fixed blank params issue, added current page support in parser.
+- 2019-09-03 - v1.1.0 - Naming Issue with package due to previous error.
 - 2019-09-03 - v1.0.0 - Added support for remaning REST functions, removed QUERY function, added parser support.
 - 2019-08-22 - v1.0.0-6 - Fixed Post APIs body and partially added separate rest functions.
 - 2019-08-10 - v1.0.0-5 - Added Experimental Parser
@@ -197,4 +205,5 @@ async function getOrders () {
 
 ## To Do
 
+* Fix any errors which may pop up.
 * Add test cases.

@@ -136,15 +136,14 @@ MagentoAPI.prototype._request = function (method, endpoint, body) {
  * Search Parameter Translator
  */
 MagentoAPI.prototype._searches = function (params) {
-    let keys = Object.keys(params);
-    let antiTrigger = ["filter_groups", "filterGroups", "sort_orders", "sortOrders", "page_size", "pageSize"]
-    let parserTrigger = keys.filter(val => antiTrigger.includes(val));
-
-    if (params || params != null) {
+    if (!params || params === null) {
+        return 'searchCriteria=all';
+    } else {
+        let paramObjKeys = Object.keys(params);
+        let antiTrigger = ["filter_groups", "filterGroups", "sort_orders", "sortOrders", "page_size", "pageSize", "current_page", "currentPage"];
+        let parserTrigger = paramObjKeys.filter(val => antiTrigger.includes(val));
         let param_str = parserTrigger.length > 0 ? params_url : params_convert;
         return param_str(params);
-    } else {
-        return 'searchCriteria=all';
     }
 }
 
