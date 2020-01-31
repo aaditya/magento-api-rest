@@ -19,7 +19,9 @@ Make sure to check the resource access is as per your requirements to prevent mi
 
 Check out the Magento API endpoints and data that can be manipulated in <https://devdocs.magento.com/redoc/2.3/index.html>.
 
-* The above documentation is for Magento 2.3, latest at the time of making this package. Should be compatible with Magento 2.2 as well.
+* The above documentation is for Magento 2.3, latest at the time of making this package.
+
+* This library is compatible with Magento 2.2 and Magento 1.9.
 
 ## Setup
 
@@ -34,7 +36,7 @@ const client = new MagentoAPI({
     'consumerSecret': '<OAuth 1.0a consumer secret>',
     'accessToken': '<OAuth 1.0a access token>',
     'tokenSecret': '<OAuth 1.0a access token secret>'
-})
+});
 ```
 
 ### Options
@@ -46,9 +48,12 @@ const client = new MagentoAPI({
 | `consumerSecret`    | `String`  | yes      | Your API consumer secret                                   |
 | `accessToken`       | `String`  | yes      | Your API Access Token                                      |
 | `tokenSecret`       | `String`  | yes      | Your API Access Token Secret                               |
-| `version`           | `String`  | no       | Magento REST API version, default is `V1`                  |
+| `version`           | `String`  | no       | Magento API type, default is `V1`                          |
+| `store`             | `Number`  | no       | Magento Store Version, default is 2                        |
 
-If you want to use the [asynchronous Endpoints](https://devdocs.magento.com/guides/v2.3/rest/asynchronous-web-endpoints.html) set `version` to `async/V1`.
+* If you want to use the [Asynchronous Endpoints](https://devdocs.magento.com/guides/v2.3/rest/asynchronous-web-endpoints.html) set `version` to `async/V1`.
+
+* If you want to use the [Bulk Endpoints](https://devdocs.magento.com/guides/v2.3/rest/bulk-endpoints.html) set `version` to `async/bulk/V1`.
 
 ## Methods
 
@@ -90,15 +95,6 @@ That will result in "?searchCriteria=all" in the URL.
 | Params     | Type     | Description                                                     |
 |------------|----------|-----------------------------------------------------------------|
 | `endpoint` | `String` | Magento API endpoint, example: `orders/12`                      |
-
-### OPTIONS
-
-- `.options(endpoint)`
-
-| Params     | Type     | Description                                                     |
-|------------|----------|-----------------------------------------------------------------|
-| `endpoint` | `String` | Magento API endpoint, example: `customers/1` or `orders/14`     |
-
 
 ### API
 
@@ -193,6 +189,7 @@ async function getOrders () {
 
 ## Build History
 
+- 2020-01-31 - v1.1.2-0 - Added Support for magento 1.X REST APIs and other optimisations and removed OPTIONS method.
 - 2020-01-26 - v1.1.1 - Fixed blank params issue, added current page support in parser.
 - 2019-09-03 - v1.1.0 - Naming Issue with package due to previous error.
 - 2019-09-03 - v1.0.0 - Added support for remaning REST functions, removed QUERY function, added parser support.

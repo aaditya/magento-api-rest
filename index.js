@@ -43,7 +43,8 @@ MagentoAPI.prototype._setDefaults = function (options) {
     this.consumerSecret = options.consumerSecret;
     this.accessToken = options.accessToken;
     this.tokenSecret = options.tokenSecret;
-    this.magentoVersion = options.magentoVersion || 'V1';
+    this.magentoVersion = options.version || 'V1';
+    this.storeVersion = options.store || 2;
     this.isSsl = /^https:\/\//i.test(this.url);
 }
 
@@ -55,26 +56,20 @@ MagentoAPI.prototype._setDefaults = function (options) {
  */
 MagentoAPI.prototype._normalizeQueryString = function (url) {
     // Exit if don't find query string
-    if (-1 === url.indexOf('?')) {
+    if (!url.includes('?')) {
         return url;
     }
 
-    var query = _url.parse(url, true).query;
-    var params = [];
-    var queryString = '';
+    let query = _url.parse(url, true).query;
+    let params = Object.keys(query);
+    let queryString = '';
 
-    for (var p in query) {
-        params.push(p);
-    }
-    params.sort();
-
-    for (var i in params) {
+    for (let i in params) {
         if (queryString.length) {
             queryString += '&';
         }
 
-        queryString += encodeURIComponent(params[i]).replace(/%5B/g, '[')
-            .replace(/%5D/g, ']');
+        queryString += encodeURIComponent(params[i]).replace(/%5B/g, '[').replace(/%5D/g, ']');
         queryString += '=';
         queryString += encodeURIComponent(query[params[i]]);
     }
@@ -83,12 +78,13 @@ MagentoAPI.prototype._normalizeQueryString = function (url) {
 };
 
 MagentoAPI.prototype._getOAuth = function (request_data) {
-    var oauth = OAuth({
+    let hmacVersion = this.storeVersion === 2 ? "sha256" : "sha1";
+    let oauth = OAuth({
         consumer: {
             key: this.consumerKey,
             secret: this.consumerSecret
         },
-        signature_method: 'HMAC-SHA256',
+        signature_method: this.storeVersion === 2 ? 'HMAC-SHA256' : 'HMAC-SHA1',
         hash_function(base_string, key) {
             return crypto
                 .createHmac('sha256', key)
@@ -96,7 +92,7 @@ MagentoAPI.prototype._getOAuth = function (request_data) {
                 .digest('base64')
         }
     });
-    var token = {
+    let token = {
         key: this.accessToken,
         secret: this.tokenSecret
     };
@@ -196,18 +192,6 @@ MagentoAPI.prototype.put = function (endpoint, data) {
   */
 MagentoAPI.prototype.delete = function (endpoint) {
     return this._request('DELETE', endpoint, null);
-}
-
-/**
- * OPTIONS requests
- *
- * @param  {String} endpoint
- * @param  {Object} params
- *
- * @return {Object}
- */
-MagentoAPI.prototype.options = function (endpoint) {
-    return this._request('OPTIONS', endpoint, null);
 }
 
 module.exports = MagentoAPI;
