@@ -189,6 +189,7 @@ async function getOrders () {
 
 ## Build History
 
+- 2020-02-01 - v1.1.2-1 - Miscellaneous Edits.
 - 2020-01-31 - v1.1.2-0 - Added Support for magento 1.X REST APIs and other optimisations and removed OPTIONS method.
 - 2020-01-26 - v1.1.1 - Fixed blank params issue, added current page support in parser.
 - 2019-09-03 - v1.1.0 - Naming Issue with package due to previous error.

@@ -78,16 +78,16 @@ MagentoAPI.prototype._normalizeQueryString = function (url) {
 };
 
 MagentoAPI.prototype._getOAuth = function (request_data) {
-    let hmacVersion = this.storeVersion === 2 ? "sha256" : "sha1";
+    let hmacVersion = this.storeVersion >= 2 ? "sha256" : "sha1";
     let oauth = OAuth({
         consumer: {
             key: this.consumerKey,
             secret: this.consumerSecret
         },
-        signature_method: this.storeVersion === 2 ? 'HMAC-SHA256' : 'HMAC-SHA1',
+        signature_method: this.storeVersion >= 2 ? 'HMAC-SHA256' : 'HMAC-SHA1',
         hash_function(base_string, key) {
             return crypto
-                .createHmac('sha256', key)
+                .createHmac(hmacVersion, key)
                 .update(base_string)
                 .digest('base64')
         }
@@ -96,7 +96,7 @@ MagentoAPI.prototype._getOAuth = function (request_data) {
         key: this.accessToken,
         secret: this.tokenSecret
     };
-    return oauth.toHeader(oauth.authorize(request_data, token))
+    return oauth.toHeader(oauth.authorize(request_data, token));
 }
 
 /**
@@ -108,7 +108,11 @@ MagentoAPI.prototype._formURL = function (endpoint) {
     if (!this.isSsl) {
         endpoint = this._normalizeQueryString(endpoint);
     }
-    return accessibleUrl + 'rest/' + this.magentoVersion + '/' + endpoint;
+    if (this.storeVersion < 2) {
+        return accessibleUrl + 'api/rest/' + endpoint;
+    } else {
+        return accessibleUrl + 'rest/' + this.magentoVersion + '/' + endpoint;
+    }
 }
 
 MagentoAPI.prototype._request = function (method, endpoint, body) {
