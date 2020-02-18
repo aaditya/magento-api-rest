@@ -5,9 +5,12 @@ const _crypto = require("crypto");
 const _oAuth = require('oauth-1.0a');
 const _url = require('url');
 
-// Libraries to be used in case on Magento 2.X
-const _transform_2 = require("./lib/transform2"); 
+// Libraries to be used in case of Magento 2.X
+const _transform_2 = require("./lib/transform2");
 const _parser_2 = require("./lib/parser");
+
+// Libraries to be used in case of Mageto 1.X
+const _transform_1 = require("./lib/transform1");
 
 /**
  * Magento REST API Wrapper
@@ -172,14 +175,15 @@ class MagentoRestAPI {
         if (!params || params === null) {
             return 'searchCriteria=all';
         } else {
-            let paramObjKeys = Object.keys(params);
-            let antiTrigger = ["filter_groups", "filterGroups", "sort_orders", "sortOrders", "page_size", "pageSize", "current_page", "currentPage"];
-            let parserTrigger = paramObjKeys.filter(val => antiTrigger.includes(val));
             if (this.storeVersion >= 2) {
+                let paramObjKeys = Object.keys(params);
+                let antiTrigger = ["filter_groups", "filterGroups", "sort_orders", "sortOrders", "page_size", "pageSize", "current_page", "currentPage"];
+                let parserTrigger = paramObjKeys.filter(val => antiTrigger.includes(val));
                 let operation = parserTrigger.length > 0 ? _transform_2 : _parser_2;
                 return operation(params);
             } else {
-                return params;
+                let operation = _transform_1;
+                return operation(params);
             }
         }
     }

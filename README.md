@@ -17,15 +17,15 @@ Generate API credentials by following these instructions <https://devdocs.magent
 
 Make sure to check the resource access is as per your requirements to prevent misuse of the API Keys.
 
-Check out the Magento API endpoints and data that can be manipulated in <https://devdocs.magento.com/redoc/2.3/index.html>.
+Check out the Magento 2 API endpoints and data that can be manipulated in <https://devdocs.magento.com/redoc/2.3/index.html>.
 
-* The above documentation is for Magento 2.3, latest at the time of making this package.
+Or, if you are using Magento 1.X, refer to [these](https://devdocs.magento.com/guides/m1x/api/rest/introduction.html) documentation.
 
-* This library is compatible with Magento 2.2 and Magento 1.9.
+* This library is compatible with Magento 2 as well as Magento 1.X REST Endpoints.
 
 ## Setup
 
-Setup for the new Magento REST API integration (Magento 2.3 or later):
+Setup for the Magento REST API integration:
 
 ```js
 const MagentoAPI = require('magento-api-rest');
@@ -35,7 +35,8 @@ const client = new MagentoAPI({
     'consumerKey': '<OAuth 1.0a consumer key>',
     'consumerSecret': '<OAuth 1.0a consumer secret>',
     'accessToken': '<OAuth 1.0a access token>',
-    'tokenSecret': '<OAuth 1.0a access token secret>'
+    'tokenSecret': '<OAuth 1.0a access token secret>',
+    'version': '2'
 });
 ```
 
@@ -48,12 +49,14 @@ const client = new MagentoAPI({
 | `consumerSecret`    | `String`  | yes      | Your API consumer secret                                   |
 | `accessToken`       | `String`  | yes      | Your API Access Token                                      |
 | `tokenSecret`       | `String`  | yes      | Your API Access Token Secret                               |
-| `version`           | `String`  | no       | Magento API type, default is `V1`                          |
-| `store`             | `Number`  | no       | Magento Store Version, default is 2                        |
+| `version`           | `Number`  | no       | Magento Store Version, default is 2                        |
+| `type`              | `String`  | no       | Magento endpoint type, default is 'V1'                     |
 
-* If you want to use the [Asynchronous Endpoints](https://devdocs.magento.com/guides/v2.3/rest/asynchronous-web-endpoints.html) set `version` to `async/V1`.
+* If you want to use the [Asynchronous Endpoints](https://devdocs.magento.com/guides/v2.3/rest/asynchronous-web-endpoints.html) set `type` to `async/V1`.
 
-* If you want to use the [Bulk Endpoints](https://devdocs.magento.com/guides/v2.3/rest/bulk-endpoints.html) set `version` to `async/bulk/V1`.
+* If you want to use the [Bulk Endpoints](https://devdocs.magento.com/guides/v2.3/rest/bulk-endpoints.html) set `type` to `async/bulk/V1`.
+
+* *Type* parameter is only valid for Magento Versions 2 and above.
 
 ## Methods
 
@@ -90,19 +93,22 @@ That will result in "?searchCriteria=all" in the URL.
 
 ### DELETE
 
-- `.delete(endpoint)`
+- `.delete(endpoint, data)`
 
 | Params     | Type     | Description                                                     |
 |------------|----------|-----------------------------------------------------------------|
 | `endpoint` | `String` | Magento API endpoint, example: `orders/12`                      |
+| `data`     | `Object` | JSON object to be sent as body.                                 |
 
 ### API
 
 Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
 
+For Magento 2 REST API:
+
 ```js
 let params = {
-    "filter_groups": [
+    "filterGroups": [
         {
             "filters": [
                 {
@@ -144,7 +150,32 @@ let params = {
     $page: 1
 }
 ```
+For Magento 1 REST API:
+
+```js
+let params = {
+    "filter": [
+        {
+            "attribute": "entity_id",
+            "neq": 3,
+            "in": [1,2,3],
+            "nin": [1,2,3],
+            "gt": 3,
+            "lt": 3,
+            "from": "Date",
+            "to": "Date"
+        }
+    ],
+    "page": 1,
+    "order": "name",
+    "dir": "dsc", // Or asc
+    "limit": 100
+}
+```
+
 * Note: You cannot use both the param writing styles together.
+
+* Parser works for Magento Versions 2 and above only.
 
 #### Parser Operators
 
@@ -189,7 +220,8 @@ async function getOrders () {
 
 ## Build History
 
-- 2020-02-01 - v1.1.2-1 - Miscellaneous Edits.
+- 2020-02-18 - v1.2.0-2 - Added Transformation Package for Magento 1 REST APIs.
+- 2020-02-01 - v1.2.0-1 - Miscellaneous Edits.
 - 2020-01-31 - v1.1.2-0 - Added Support for magento 1.X REST APIs and other optimisations and removed OPTIONS method.
 - 2020-01-26 - v1.1.1 - Fixed blank params issue, added current page support in parser.
 - 2019-09-03 - v1.1.0 - Naming Issue with package due to previous error.
@@ -203,5 +235,4 @@ async function getOrders () {
 
 ## To Do
 
-* Fix any errors which may pop up.
 * Add test cases.
