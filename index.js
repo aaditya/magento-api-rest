@@ -155,15 +155,23 @@ class MagentoRestAPI {
             url: this._formURL(endpoint),
             body: data
         }
-        return _axios({
+
+        let options = {
             method: method,
             url: request_data.url,
             headers: {
                 'Authorization': this._getOAuth(request_data).Authorization,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             data: request_data.body
-        });
+        }
+
+        if (typeof process !== "undefined" && Object.prototype.toString.call(process) === "[object process]") {
+            options.headers["User-Agent"] = "Magento REST API - JS Client/" + this.clientVersion;
+        }
+
+        return _axios(options);
     }
 
     /**

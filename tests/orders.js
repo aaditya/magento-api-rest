@@ -15,13 +15,7 @@ const api = require("../index");
             "filter": [
                 {
                     "attribute": "status",
-                    // "neq": 3,
-                    "in": ["processing"],
-                    // "nin": [2, 3],
-                    // "gt": 0,
-                    // "lt": 3,
-                    // "from": "this",
-                    // "to": "this"
+                    "in": ["processing"]
                 }
             ],
             "page": 1,
@@ -29,8 +23,8 @@ const api = require("../index");
             "dir": "dsc",
             "limit": 100
         }
-        
-        let orders = (await client.get("orders", options).data);
+
+        let orders = (await client.get("orders", options)).data;
         console.log(orders)
     } catch (err) {
         console.log(err);
