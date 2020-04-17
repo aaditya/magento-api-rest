@@ -1,2 +1,11 @@
+# Remove Node Modules
 node_modules/
-workable/
+
+# Remove NYC Output
+.nyc_output/
+
+# Remove Index.js
+index.js
+
+#Remove Temporary Folders
+dummy/
