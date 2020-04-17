@@ -3,6 +3,8 @@
 Removed Support for Magento 1 Rest APIs.
 ES6 Rewrite.
 Made a types file.
+Setup Test Cases and Babel.
+Setup Travis for Tests.
 
 # 2020-02-18
 ## v1.2.0-2 
