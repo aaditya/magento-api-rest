@@ -12,7 +12,8 @@
   "scripts": {
     "build": "del index.js && babel index.mjs --out-dir .",
     "prepare": "npm run build",
-    "test": "nyc mocha --require @babel/register"
+    "test": "mocha --require @babel/register",
+    "test:cover": "nyc npm run test"
   },
   "repository": {
     "type": "git",
