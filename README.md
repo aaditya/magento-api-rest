@@ -21,8 +21,22 @@ Check out the Magento API endpoints and data that can be manipulated in [these d
 
 ## Setup
 
-Setup for the Magento REST API integration:
+### Setup for the Magento REST API integration
 
+#### ECMAScript Module Example
+```js
+import Magento from "magento-api-rest";
+
+const client = new Magento({
+    'url': 'https://magento.dev',
+    'consumerKey': '<OAuth 1.0a consumer key>',
+    'consumerSecret': '<OAuth 1.0a consumer secret>',
+    'accessToken': '<OAuth 1.0a access token>',
+    'tokenSecret': '<OAuth 1.0a access token secret>',
+});
+```
+
+#### CommonJS Module Example
 ```js
 const Magento = require('magento-api-rest').default;
 
