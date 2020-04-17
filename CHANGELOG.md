@@ -1,3 +1,9 @@
+# 2020-04-04
+## v2.0.0
+Removed Support for Magento 1 Rest APIs.
+ES6 Rewrite.
+Made a types file.
+
 # 2020-02-18
 ## v1.2.0-2 
 Added Transformation Package for Magento 1 REST APIs.

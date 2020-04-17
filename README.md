@@ -13,69 +13,63 @@ npm i magento-api-rest
 
 ## Getting started
 
-Generate API credentials by following these instructions <https://devdocs.magento.com/guides/v2.3/get-started/create-integration.html>.
+Generate API credentials by following [these instructions](https://devdocs.magento.com/guides/v2.3/get-started/create-integration.html).
 
 Make sure to check the resource access is as per your requirements to prevent misuse of the API Keys.
 
-Check out the Magento 2 API endpoints and data that can be manipulated in <https://devdocs.magento.com/redoc/2.3/index.html>.
-
-Or, if you are using Magento 1.X, refer to [these](https://devdocs.magento.com/guides/m1x/api/rest/introduction.html) documentation.
-
-* This library is compatible with Magento 2 as well as Magento 1.X REST Endpoints.
+Check out the Magento API endpoints and data that can be manipulated in [these docs](https://devdocs.magento.com/redoc/2.3/index.html).
 
 ## Setup
 
 Setup for the Magento REST API integration:
 
 ```js
-const MagentoAPI = require('magento-api-rest');
+const Magento = require('magento-api-rest').default;
 
-const client = new MagentoAPI({
-    'url': 'http://www.test.com',
+const client = new Magento({
+    'url': 'https://magento.dev',
     'consumerKey': '<OAuth 1.0a consumer key>',
     'consumerSecret': '<OAuth 1.0a consumer secret>',
     'accessToken': '<OAuth 1.0a access token>',
     'tokenSecret': '<OAuth 1.0a access token secret>',
-    'version': '2'
 });
 ```
 
 ### Options
 
-| Option              | Type      | Required | Description                                                |
-|---------------------|-----------|----------| -----------------------------------------------------------|
-| `url`               | `String`  | yes      | Your Store URL                                             |
-| `consumerKey`       | `String`  | yes      | Your API consumer key                                      |
-| `consumerSecret`    | `String`  | yes      | Your API consumer secret                                   |
-| `accessToken`       | `String`  | yes      | Your API Access Token                                      |
-| `tokenSecret`       | `String`  | yes      | Your API Access Token Secret                               |
-| `version`           | `Number`  | no       | Magento Store Version, default is 2                        |
-| `type`              | `String`  | no       | Magento endpoint type, default is 'V1'                     |
+| Option | Type | Required | Description |
+--- | --- | --- | ---
+| `url`  | `String`  | yes | Your Store URL |
+| `consumerKey` | `String`  | yes | Your API consumer key |
+| `consumerSecret` | `String` | yes | Your API consumer secret |
+| `accessToken` | `String` | yes | Your API Access Token |
+| `tokenSecret` | `String` | yes | Your API Access Token Secret |
+| `type` | `String` | no | Magento endpoint type, default is 'V1'|
+| `sha` | `Number`  | no | Magento SHA type, default is '1'|
+| `timeout` | `Number`  | no | Request Timeout |
+| `axiosConfig` | `Object` | no | [Reference](https://github.com/axios/axios#request-config)
 
-* If you want to use the [Asynchronous Endpoints](https://devdocs.magento.com/guides/v2.3/rest/asynchronous-web-endpoints.html) set `type` to `async/V1`.
+If you want to use the [Asynchronous Endpoints](https://devdocs.magento.com/guides/v2.3/rest/asynchronous-web-endpoints.html) set `type` to `async/V1`.
 
-* If you want to use the [Bulk Endpoints](https://devdocs.magento.com/guides/v2.3/rest/bulk-endpoints.html) set `type` to `async/bulk/V1`.
+If you want to use the [Bulk Endpoints](https://devdocs.magento.com/guides/v2.3/rest/bulk-endpoints.html) set `type` to `async/bulk/V1`.
 
-* *Type* parameter is only valid for Magento Versions 2 and above.
+If you want to change the sha version, values can be 1 or 256.
 
 ## Methods
 
 ### GET
 
-- `.get(endpoint)`
-- `.get(endpoint, params)`
+`.get(endpoint)`
+`.get(endpoint, params)`
 
 | Params     | Type     | Description                                                   |
 |------------|----------|---------------------------------------------------------------|
 | `endpoint` | `String` | Magento API endpoint, example: `orders`                       |
 | `params`   | `Object` | JSON object to be sent as params.                             |
 
-* Note: In case no params are specified or required, you can leave params as empty. 
-That will result in "?searchCriteria=all" in the URL. 
-
 ### POST
 
-- `.post(endpoint, data)`
+`.post(endpoint, data)`
 
 | Params     | Type     | Description                                                 |
 |------------|----------|-------------------------------------------------------------|
@@ -84,7 +78,7 @@ That will result in "?searchCriteria=all" in the URL.
 
 ### PUT
 
-- `.put(endpoint, data)`
+`.put(endpoint, data)`
 
 | Params     | Type     | Description                                                 |
 |------------|----------|-------------------------------------------------------------|
@@ -93,7 +87,7 @@ That will result in "?searchCriteria=all" in the URL.
 
 ### DELETE
 
-- `.delete(endpoint, data)`
+`.delete(endpoint, data)`
 
 | Params     | Type     | Description                                                     |
 |------------|----------|-----------------------------------------------------------------|
@@ -103,8 +97,6 @@ That will result in "?searchCriteria=all" in the URL.
 ### API
 
 Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
-
-For Magento 2 REST API:
 
 ```js
 let params = {
@@ -136,13 +128,11 @@ let params = {
     "currentPage": 1
 }
 ```
-Or, you can use the inbuilt parser to write the above query as:
+Or, you can use the parser to write the above query as:
 ```js
 let params = {
-    $or: [
-        { $from: "2019-08-03 11:22:47" },
-        { $to: "2020-08-03 11:22:47" }
-    ],
+    $from: "2019-08-03 11:22:47",
+    $to: "2020-08-03 11:22:47",
     $sort: {
         "created_at": "desc"
     },
@@ -150,74 +140,35 @@ let params = {
     $page: 1
 }
 ```
-For Magento 1 REST API:
-
-```js
-let params = {
-    "filter": [
-        {
-            "attribute": "entity_id",
-            "neq": 3,
-            "in": [1,2,3],
-            "nin": [1,2,3],
-            "gt": 3,
-            "lt": 3,
-            "from": "Date",
-            "to": "Date"
-        }
-    ],
-    "page": 1,
-    "order": "name",
-    "dir": "dsc", // Or asc
-    "limit": 100
-}
-```
-
-* Note: You cannot use both the param writing styles together.
-
-* Parser works for Magento Versions 2 and above only.
+> You cannot use both the param writing styles together.
+> Parser is triggered automatically if you use any of the keys.
 
 #### Parser Operators
 
 | Operator | Description |
-|---|---|
-| $or | Execute OR queries. |
+---|---
+| $or | Execute OR queries. Syntax: $or:[<condition1>, <condition2>] |
 | $from | Starting point of order search via ISO date. Requires $to. |
 | $to | Starting point of order search via ISO date. |
-| $after | Search after a specific ISO date. |
-| $before | Search before a specific ISO date. |
+| $after | Search after a specific ISO date. Exclusive. |
+| $before | Search before a specific ISO date. Exclusive. |
 | $sort | Sort the orders, see docs for more. |
 | $perPage | Specifies the per page orders. |
 | $page | Specifies the current page. |
 
-* By default { key: value } translates to an "eq" operation where key = value.
+> By default { key: value } translates to an "eq" operation where key = value.
 
-To get more information as to how to form queries natively, use the following reference,
-<https://devdocs.magento.com/guides/v2.3/rest/performing-searches.html>.
+To get more information as to how to form queries natively, use the [following reference](https://devdocs.magento.com/guides/v2.3/rest/performing-searches.html).
 
-If you want to use the above object in a request,
-```js
-function getOrders () {
-   client.get('orders', params).then((response) => {
-    //  Response Handling
-   }).catch((error) => {
-    //  Error Handling
-   })
-}
-```
-or by async await,
-
+> If you want to use the above object in a request,
 ```js
 async function getOrders () {
     try {
-        let response = await client.get('orders', params);
+        let { data } = await client.get('orders', params);
         // Response Handling
-    } catch (e) {
+    } catch (err) {
         // Error Handling
     }
 }
 ```
-
-## To Do
-
-* Add test cases.
+Error Handling is basically the same as how Axios Handles it. [Reference](https://github.com/axios/axios).

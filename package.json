@@ -1,8 +1,9 @@
 {
   "name": "magento-api-rest",
-  "version": "1.2.0-2",
-  "description": "A NodeJS wrapper to work with Magento 2 REST APIs.",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "A NodeJS wrapper to work with Magento REST APIs.",
+  "main": "index",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -33,7 +34,8 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.0",
-    "nock": "^10.0.6"
+    "mocha": "^6.2.3",
+    "nyc": "^15.0.1",
+    "sinon": "^9.0.2"
   }
 }
