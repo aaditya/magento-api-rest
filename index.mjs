@@ -47,7 +47,7 @@ export default class MagentoRestApi {
         this.accessToken = opt.accessToken;
         this.tokenSecret = opt.tokenSecret;
         this.endpointType = opt.type || 'V1';
-        this.shaVersion = opt.sha || 'sha1';
+        this.shaVersion = opt.sha || 1;
         this.timeout = opt.timeout;
         this.axiosConfig = opt.axiosConfig || {};
         this.isSsl = /^https:\/\//i.test(this.url);
@@ -92,15 +92,16 @@ export default class MagentoRestApi {
     }
 
     _getOAuth(data) {
+        let sha = this._getSHAType();
         let oauth = _oAuth({
             consumer: {
                 key: this.consumerKey,
                 secret: this.consumerSecret
             },
-            signature_method: this._getSHAType().signature,
+            signature_method: sha.signature,
             hash_function(base_string, key) {
                 return _crypto
-                    .createHmac(this._getSHAType().hash, key)
+                    .createHmac(sha.hash, key)
                     .update(base_string)
                     .digest('base64')
             }

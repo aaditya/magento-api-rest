@@ -1,11 +1,10 @@
 # Magento API REST
 
-A Node.js client wrapper to work with the Magento REST API.
-
 [![Build Status](https://travis-ci.org/aadityachakravarty/magento-api-rest.svg?branch=master)](https://travis-ci.org/aadityachakravarty/magento-api-rest)
 [![dependencies Status](https://david-dm.org/aadityachakravarty/magento-api-rest/status.svg)](https://david-dm.org/aadityachakravarty/magento-api-rest)
 [![npm version](https://badge.fury.io/js/magento-api-rest.svg)](https://www.npmjs.com/package/magento-api-rest)
 
+A Node.js client wrapper to work with the Magento REST API.
 
 ## Installation
 
@@ -164,12 +163,12 @@ let params = {
 | Operator | Description |
 ---|---
 | $or | Execute OR queries. Syntax: $or:[<condition1>, <condition2>] |
-| $from | Starting point of order search via ISO date. Requires $to. |
-| $to | Starting point of order search via ISO date. |
+| $from | Starting point of search via ISO date. Requires $to. |
+| $to | Starting point of search via ISO date. |
 | $after | Search after a specific ISO date. Exclusive. |
 | $before | Search before a specific ISO date. Exclusive. |
-| $sort | Sort the orders, see docs for more. |
-| $perPage | Specifies the per page orders. |
+| $sort | Sort the data. |
+| $perPage | Specifies the per page data. |
 | $page | Specifies the current page. |
 
 > By default { key: value } translates to an "eq" operation where key = value.
@@ -187,4 +186,4 @@ async function getOrders () {
     }
 }
 ```
-Error Handling is basically the same as how Axios Handles it. [Reference](https://github.com/axios/axios).
+Error Handling is same as how Axios Handles it. [Reference](https://github.com/axios/axios#handling-errors).
