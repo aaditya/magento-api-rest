@@ -1,0 +1,5 @@
+{
+    "all": false,
+    "reporter": ["text", "html"],
+    "report-dir": "./coverage"
+}

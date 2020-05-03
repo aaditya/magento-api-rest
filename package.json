@@ -13,7 +13,7 @@
     "build": "babel index.mjs --out-dir .",
     "prepare": "npm run build",
     "test": "mocha --require @babel/register './**/*.spec.js'",
-    "test:cover": "nyc npm run test"
+    "coverage": "nyc npm run test"
   },
   "repository": {
     "type": "git",

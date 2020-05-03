@@ -1,3 +1,9 @@
+# 2020-04-03
+## v2.0.0
+Added more test cases.
+Set up coverage.
+Separated the libraries.
+
 # 2020-04-04
 ## v2.0.0
 Removed Support for Magento 1 Rest APIs.

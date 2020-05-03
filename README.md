@@ -115,7 +115,7 @@ Requests are made with [Axios library](https://github.com/axios/axios) with [sup
 
 ```js
 let params = {
-    "filterGroups": [
+     "filter_groups": [
         {
             "filters": [
                 {
@@ -123,9 +123,11 @@ let params = {
                     "value": "2019-08-03 11:22:47",
                     "condition_type": "from"
                 }
-            ],
+            ]
+        },
+        {
             "filters": [
-                {   
+                {
                     "field": "created_at",
                     "value": "2020-08-03 11:22:47",
                     "condition_type": "to"
@@ -133,14 +135,14 @@ let params = {
             ]
         }
     ],
-    "sortOrders": [
+    "sort_orders": [
         {
             "field": "created_at",
             "direction": "desc"
         }
     ],
-    "pageSize": 200,
-    "currentPage": 1
+    "page_size": 200,
+    "current_page": 1
 }
 ```
 Or, you can use the parser to write the above query as:
@@ -162,7 +164,7 @@ let params = {
 
 | Operator | Description |
 ---|---
-| $or | Execute OR queries. Syntax: $or:[<condition1>, <condition2>] |
+| $or | Execute OR queries. Syntax: $or:[ { <condition1> }, { <condition2> }] |
 | $from | Starting point of search via ISO date. Requires $to. |
 | $to | Starting point of search via ISO date. |
 | $after | Search after a specific ISO date. Exclusive. |
@@ -173,7 +175,7 @@ let params = {
 
 > By default { key: value } translates to an "eq" operation where key = value.
 
-To get more information as to how to form queries natively, use the [following reference](https://devdocs.magento.com/guides/v2.3/rest/performing-searches.html).
+To get more information as to how to form search queries, use the [following reference](https://devdocs.magento.com/guides/v2.3/rest/performing-searches.html).
 
 > If you want to use the above object in a request,
 ```js
@@ -186,4 +188,4 @@ async function getOrders () {
     }
 }
 ```
-Error Handling is same as how Axios Handles it. [Reference](https://github.com/axios/axios#handling-errors).
+Error Handling is same as how Axios [handles](https://github.com/axios/axios#handling-errors) it.

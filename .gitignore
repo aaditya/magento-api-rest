@@ -3,9 +3,7 @@ node_modules/
 
 # Remove NYC Output
 .nyc_output/
+coverage/
 
 # Remove Index.js
 index.js
-
-#Remove Temporary Folders
-dummy/

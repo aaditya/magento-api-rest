@@ -154,8 +154,10 @@ export default class MagentoRestApi {
         let paramObjKeys = Object.keys(params);
         let antiTrigger = ["filter_groups", "filterGroups", "sort_orders", "sortOrders", "page_size", "pageSize", "current_page", "currentPage"];
         let parserTrigger = paramObjKeys.filter(val => antiTrigger.includes(val));
-        let operation = parserTrigger.length > 0 ? _transform : _parser;
-        return operation(params);
+        if (parserTrigger.length > 0) {
+            params = _parser(params);
+        }
+        return _transform(params);
     }
 
     get(endpoint, params) {
