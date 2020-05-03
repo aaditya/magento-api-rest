@@ -1,2 +1,9 @@
+# Remove Node Modules
 node_modules/
-workable/
+
+# Remove NYC Output
+.nyc_output/
+coverage/
+
+# Remove Index.js
+index.js

@@ -1,10 +1,19 @@
 {
   "name": "magento-api-rest",
-  "version": "1.1.2-1",
-  "description": "A NodeJS wrapper to work with Magento 2 REST APIs.",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "A NodeJS wrapper to work with Magento REST APIs.",
+  "main": "index",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.mjs",
+    "index.d.ts"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel index.mjs --out-dir .",
+    "prepare": "npm run build",
+    "test": "mocha --require @babel/register './**/*.spec.js'",
+    "coverage": "nyc npm run test"
   },
   "repository": {
     "type": "git",
@@ -32,8 +41,18 @@
     "oauth-1.0a": "^2.2.6"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/register": "^7.9.0",
     "chai": "^4.2.0",
-    "mocha": "^6.2.0",
-    "nock": "^10.0.6"
+    "mocha": "^6.2.3",
+    "moxios": "^0.4.0",
+    "nyc": "^15.0.1",
+    "sinon": "^9.0.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
