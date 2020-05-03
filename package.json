@@ -12,7 +12,7 @@
   "scripts": {
     "build": "babel index.mjs --out-dir .",
     "prepare": "npm run build",
-    "test": "mocha --require @babel/register",
+    "test": "mocha --require @babel/register './**/*.spec.js'",
     "test:cover": "nyc npm run test"
   },
   "repository": {
