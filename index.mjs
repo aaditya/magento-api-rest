@@ -10,10 +10,6 @@ const _parser = require("./lib/parser");
 
 export default class MagentoRestApi {
     constructor(options) {
-        if (!(this instanceof MagentoRestApi)) {
-            return new MagentoRestApi(options);
-        }
-
         options = options || {};
 
         if (!(options.url)) {
@@ -54,7 +50,7 @@ export default class MagentoRestApi {
     }
 
     _normalizeQueryString(url) {
-        if (!url.includes('?')) {
+        if (!(url.includes('?'))) {
             return url;
         }
 
@@ -114,7 +110,7 @@ export default class MagentoRestApi {
     }
 
     _formURL(endpoint) {
-        let accessibleUrl = this.url.split(-1) === '/' ? this.url : this.url + '/';
+        let accessibleUrl = this.url.slice(-1) === '/' ? this.url : this.url + '/';
         if (!this.isSsl) {
             endpoint = this._normalizeQueryString(endpoint);
         }
@@ -154,7 +150,7 @@ export default class MagentoRestApi {
         let paramObjKeys = Object.keys(params);
         let antiTrigger = ["filter_groups", "filterGroups", "sort_orders", "sortOrders", "page_size", "pageSize", "current_page", "currentPage"];
         let parserTrigger = paramObjKeys.filter(val => antiTrigger.includes(val));
-        if (parserTrigger.length > 0) {
+        if (parserTrigger.length === 0) {
             params = _parser(params);
         }
         return _transform(params);
