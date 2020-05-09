@@ -1,3 +1,7 @@
+# 2020-05-09
+Completed testing.
+Changed line endings to Unix Style.
+
 # 2020-04-03
 ## v2.0.0
 Added more test cases.

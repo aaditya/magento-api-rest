@@ -162,13 +162,13 @@ let params = {
 
 #### Parser Operators
 
-| Operator | Description |
----|---
-| $or | Execute OR queries. Syntax: $or:[ { <condition1> }, { <condition2> }] |
-| $from | Starting point of search via ISO date. Requires $to. |
+| Operator | Description | Notes
+---|---|---
+| $or | Execute OR queries. | Syntax: $or:[ { condition1 }, { condition2 }] |
+| $from | Starting point of search via ISO date. | Requires $to. |
 | $to | Starting point of search via ISO date. |
-| $after | Search after a specific ISO date. Exclusive. |
-| $before | Search before a specific ISO date. Exclusive. |
+| $after | Search after a specific ISO date. | Exclusive. |
+| $before | Search before a specific ISO date. | Exclusive. |
 | $sort | Sort the data. |
 | $perPage | Specifies the per page data. |
 | $page | Specifies the current page. |
@@ -188,4 +188,4 @@ async function getOrders () {
     }
 }
 ```
-Error Handling is same as how Axios [handles](https://github.com/axios/axios#handling-errors) it.
+Error Handling is same as how [Axios handles it](https://github.com/axios/axios#handling-errors).
