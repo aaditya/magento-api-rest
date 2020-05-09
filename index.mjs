@@ -157,8 +157,10 @@ export default class MagentoRestApi {
     }
 
     get(endpoint, params) {
-        if (params) {
-            endpoint = endpoint + '?' + this._searchTranslate(params);
+        if (params && Object.keys(params).length > 0) {
+            endpoint += '?' + this._searchTranslate(params);
+        } else {
+            endpoint += '?searchCriteria'
         }
         return this._formRequest('GET', endpoint);
     }

@@ -105,7 +105,7 @@ describe('# Requests', function () {
     });
 
     it('should execute get requests without params non https', async function () {
-        moxios.stubRequest('https://magento.dev/rest/V1/orders', {
+        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria', {
             status: 200,
             response: {
                 success: true,
@@ -127,7 +127,7 @@ describe('# Requests', function () {
             'tokenSecret': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
         });
 
-        moxios.stubRequest('http://magento.dev/rest/V1/orders', {
+        moxios.stubRequest('http://magento.dev/rest/V1/orders?searchCriteria=', {
             status: 200,
             response: {
                 success: true,
@@ -140,7 +140,7 @@ describe('# Requests', function () {
         expect(data).to.have.property('success').eql(true);
     });
 
-    it('should execute get requests without params', async function () {
+    it('should execute get requests without params with url ending in "/"', async function () {
         const clientLocal = new Magento({
             'url': 'http://magento.dev/',
             'consumerKey': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
@@ -149,7 +149,7 @@ describe('# Requests', function () {
             'tokenSecret': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
         });
 
-        moxios.stubRequest('http://magento.dev/rest/V1/orders', {
+        moxios.stubRequest('http://magento.dev/rest/V1/orders?searchCriteria=', {
             status: 200,
             response: {
                 success: true,
@@ -161,6 +161,21 @@ describe('# Requests', function () {
 
         expect(data).to.have.property('success').eql(true);
     });
+
+    it('should execute get requests with empty object params https', async function () {
+        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria', {
+            status: 200,
+            response: {
+                success: true,
+                msg: "Hit the correct request."
+            }
+        });
+
+        const { data } = await client.get('orders', {});
+
+        expect(data).to.have.property('success').eql(true);
+    });
+    
 
     it('should reject for invalid sha version', async function () {
         const clientSecond = new Magento({
@@ -187,7 +202,7 @@ describe('# Requests', function () {
             'sha': 256
         });
 
-        moxios.stubRequest('https://magento.dev/rest/V1/orders', {
+        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria', {
             status: 200,
             response: {
                 success: true,
