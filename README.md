@@ -166,7 +166,7 @@ let params = {
 ---|---|---
 | $or | Execute OR queries. | Syntax: $or:[ { condition1 }, { condition2 }] |
 | $from | Starting point of search via ISO date. | Requires $to. |
-| $to | Starting point of search via ISO date. |
+| $to | Ending point of search via ISO date. | Requires $from. |
 | $after | Search after a specific ISO date. | Exclusive. |
 | $before | Search before a specific ISO date. | Exclusive. |
 | $sort | Sort the data. |
