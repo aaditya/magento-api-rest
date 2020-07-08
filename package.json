@@ -7,7 +7,8 @@
   "files": [
     "index.js",
     "index.mjs",
-    "index.d.ts"
+    "index.d.ts",
+    "/lib"
   ],
   "scripts": {
     "build": "babel index.mjs --out-dir .",
@@ -17,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aadityachakravarty/magento-api-rest.git"
+    "url": "git+https://github.com/aaditya/magento-api-rest.git"
   },
   "keywords": [
     "Magento",
@@ -33,9 +34,9 @@
   "author": "Aaditya Chakravarty",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aadityachakravarty/magento-api-rest/issues"
+    "url": "https://github.com/aaditya/magento-api-rest/issues"
   },
-  "homepage": "https://github.com/aadityachakravarty/magento-api-rest#readme",
+  "homepage": "https://github.com/aaditya/magento-api-rest#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "oauth-1.0a": "^2.2.6"
