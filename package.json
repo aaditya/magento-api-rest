@@ -8,7 +8,8 @@
     "index.js",
     "index.mjs",
     "index.d.ts",
-    "/lib"
+    "/lib/parser.js",
+    "/lib/transform.js"
   ],
   "scripts": {
     "build": "babel index.mjs --out-dir .",
