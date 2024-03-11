@@ -6,6 +6,7 @@ class MagentoApi {
     private consumerSecret: string;
     private accessToken: string;
     private tokenSecret: string;
+    private magentoVersion: string|null|undefined;
 
     /**
      * Constructor
@@ -17,12 +18,14 @@ class MagentoApi {
         consumerSecret: string,
         accessToken: string,
         tokenSecret: string,
+        magentoVersion: string|null|undefined,
     }) {
         this.url = params.url;
         this.consumerKey = params.consumerKey;
         this.consumerSecret = params.consumerSecret;
         this.accessToken = params.accessToken;
         this.tokenSecret = params.tokenSecret;
+        this.magentoVersion = params.magentoVersion;
     }
 
     /**
@@ -41,7 +44,9 @@ class MagentoApi {
      * @returns string
      */
     getUrl(): string {
-        return `${this.url}/rest/V1/`;
+        const version = this.magentoVersion ? this.magentoVersion : 'V1';
+
+        return `${this.url}/rest/${version}/`;
     }
 
     /**
