@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "lib": ["es6", "dom"],
+      "declaration": true,
+      "sourceMap": true,
+      "outDir": "lib",
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "declarationMap": true,
+      "typeRoots": [
+        "node_modules/@types",
+        "types"
+      ]
+    },
+    "exclude": ["node_modules", "lib", "test"]
+}

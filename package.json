@@ -1,63 +1,41 @@
 {
   "name": "@imagination-media/magento-api-rest",
-  "version": "2.0.4",
-  "description": "A NodeJS wrapper to work with Magento REST APIs.",
-  "main": "index",
-  "types": "index.d.ts",
-  "files": [
-    "index.js",
-    "index.mjs",
-    "index.d.ts",
-    "/lib/parser.js",
-    "/lib/transform.js"
-  ],
+  "version": "3.0.0",
+  "description": "Magento API wrapper",
+  "main": "lib/index.js",
   "scripts": {
-    "build": "babel index.mjs --out-dir .",
-    "prepare": "npm run build",
-    "test": "mocha --require @babel/register './**/*.spec.js'",
-    "coverage": "nyc npm run test"
+    "start": "nodemon --watch src --exec \"npm run build\"",
+    "lint": "eslint --ext .ts . --fix",
+    "compile": "npx tsc",
+    "build": "rm -rf lib/* && tsc && cpy 'src/**/*.!(ts)' 'lib/'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Imagination-Media/magento-api-rest.git"
   },
-  "keywords": [
-    "Magento",
-    "Magento2",
-    "eCommerce",
-    "REST",
-    "API",
-    "JS",
-    "NodeJS",
-    "Javascript",
-    "JSON"
-  ],
-  "author": "Aaditya Chakravarty",
-  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "author": "Igor Ludgero Miura <igor@imdigital.com>",
+  "license": "SEE LICENSE IN README.MD",
   "bugs": {
     "url": "https://github.com/Imagination-Media/magento-api-rest/issues"
   },
   "homepage": "https://github.com/Imagination-Media/magento-api-rest#readme",
   "dependencies": {
-    "axios": "^1.6.7",
-    "oauth-1.0a": "^2.2.6"
+    "axios": "^1.6.7"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
-    "@babel/preset-env": "^7.12.11",
-    "@babel/register": "^7.12.10",
-    "chai": "^4.2.0",
-    "mocha": "^10.3.0",
-    "moxios": "^0.4.0",
-    "nyc": "^15.1.0",
-    "sinon": "^17.0.1"
-  },
-  "engines": {
-    "node": ">=8.0.0"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "typescript": "^5.4.2",
+    "@types/node": "^18.16.3",
+    "babel-loader": "^9.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "nodemon": "^3.0.1",
+    "@types/axios": "^0.14.0",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "axios": "^1.5.1",
+    "cpy-cli": "^5.0.0",
+    "eslint": "^8.51.0"
   }
 }

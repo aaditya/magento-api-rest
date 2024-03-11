@@ -1,9 +1,4 @@
-# Remove Node Modules
-node_modules/
-
-# Remove NYC Output
-.nyc_output/
-coverage/
-
-# Remove Index.js
-index.js
+.vscode/*
+.DS_Store
+node_modules
+lib/*
