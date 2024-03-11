@@ -55,7 +55,9 @@ class MagentoApi {
             if (data) {
                 return await axios.get(`${this.getUrl()}${path}`, {
                     headers: this.getHeaders() as any,
-                    params: data
+                    params: {
+                        searchCriteria: data
+                    }
                 });
             } else {
                 return await axios.get(`${this.getUrl()}${path}`, {
