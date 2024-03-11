@@ -47,13 +47,21 @@ class MagentoApi {
     /**
      * Make a GET request to the Magento API
      * @param path string
+     * @param data any
      * @returns Promise<any>
      */
-    async get (path: string): Promise<any> {
+    async get (path: string, data: any|null = null): Promise<any> {
         try {
-            return await axios.get(`${this.getUrl()}${path}`, {
-                headers: this.getHeaders() as any
-            });
+            if (data) {
+                return await axios.get(`${this.getUrl()}${path}`, {
+                    headers: this.getHeaders() as any,
+                    params: data
+                });
+            } else {
+                return await axios.get(`${this.getUrl()}${path}`, {
+                    headers: this.getHeaders() as any
+                });
+            }
         } catch (error:any) {
             console.error(error);
         }
