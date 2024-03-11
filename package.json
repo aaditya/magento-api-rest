@@ -1,8 +1,12 @@
 {
   "name": "@imagination-media/magento-api-rest",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Magento API wrapper",
   "main": "lib/index.js",
+  "files": ["lib"],
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
     "start": "nodemon --watch src --exec \"npm run build\"",
     "lint": "eslint --ext .ts . --fix",
@@ -26,16 +30,17 @@
     "axios": "^1.6.7"
   },
   "devDependencies": {
-    "typescript": "^5.4.2",
-    "@types/node": "^18.16.3",
-    "babel-loader": "^9.1.2",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "nodemon": "^3.0.1",
     "@types/axios": "^0.14.0",
+    "@types/node": "^18.16.3",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
     "axios": "^1.5.1",
+    "babel-loader": "^9.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.51.0"
+    "eslint": "^8.51.0",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
   }
 }
