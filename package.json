@@ -1,6 +1,6 @@
 {
   "name": "@imagination-media/magento-api-rest",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Magento API wrapper",
   "main": "lib/index.js",
   "files": ["lib"],

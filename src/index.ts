@@ -18,7 +18,7 @@ class MagentoApi {
         consumerSecret: string,
         accessToken: string,
         tokenSecret: string,
-        magentoVersion: string|null|undefined,
+        magentoVersion?: string|null|undefined,
     }) {
         this.url = params.url;
         this.consumerKey = params.consumerKey;
