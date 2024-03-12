@@ -12,14 +12,7 @@ class MagentoApi {
      * Constructor
      * @param params object
      */
-    constructor(params:{
-        url: string,
-        consumerKey: string,
-        consumerSecret: string,
-        accessToken: string,
-        tokenSecret: string,
-        magentoVersion?: string|null|undefined,
-    }) {
+    constructor(params: MagentoApiParams) {
         this.url = params.url;
         this.consumerKey = params.consumerKey;
         this.consumerSecret = params.consumerSecret;
@@ -120,11 +113,33 @@ class MagentoApi {
             console.error(error);
         }
     }
+
+    /**
+     * Set the default values for the Magento API
+     * @param params object
+     */
+    _setDefaults (params: MagentoApiParams) {
+        this.url = params.url;
+        this.consumerKey = params.consumerKey;
+        this.consumerSecret = params.consumerSecret;
+        this.accessToken = params.accessToken;
+        this.tokenSecret = params.tokenSecret;
+        this.magentoVersion = params.magentoVersion;
+    }
 }
 
 interface Header {
     'Content-Type': string,
     'Authorization': string
+}
+
+interface MagentoApiParams {
+    url: string,
+    consumerKey: string,
+    consumerSecret: string,
+    accessToken: string,
+    tokenSecret: string,
+    magentoVersion?: string|null|undefined,
 }
 
 export default MagentoApi;
