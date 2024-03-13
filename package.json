@@ -1,9 +1,11 @@
 {
   "name": "@imagination-media/magento-api-rest",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Magento API wrapper",
   "main": "lib/index.js",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "directories": {
     "lib": "lib"
   },
@@ -27,14 +29,15 @@
   },
   "homepage": "https://github.com/Imagination-Media/magento-api-rest#readme",
   "dependencies": {
-    "axios": "^1.6.7"
+    "crypto": "^1.0.1",
+    "oauth-1.0a": "^2.2.6"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/node": "^18.16.3",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
-    "axios": "^1.5.1",
+    "axios": "^1.6.7",
     "babel-loader": "^9.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cpy-cli": "^5.0.0",

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import crypto from 'crypto';
+import OAuth from 'oauth-1.0a';
 
 class MagentoApi {
     private url: string;
@@ -25,10 +27,42 @@ class MagentoApi {
      * Get the headers for the request
      * @returns Header
      */
-    getHeaders(): Header {
+    getHeaders(url: string, method: "GET"|"POST"|"PUT"|"DELETE"): Header {
+        // Initialize OAuth
+        const oauth = new OAuth({
+            consumer: {
+                key: this.consumerKey,
+                secret: this.consumerSecret,
+            },
+            signature_method: 'HMAC-SHA256',
+            hash_function(base_string, key) {
+                return crypto
+                    .createHmac('sha256', key)
+                    .update(base_string)
+                    .digest('base64');
+            },
+        })
+
+        // Token (from your Magento installation)
+        const token = {
+            key: this.accessToken,
+            secret: this.tokenSecret,
+        };
+
+        const requestData = {
+            url,
+            method
+        };
+
+        let header = {
+            'Content-Type': 'application/json'
+        }
+
+        const oauthHeader = oauth.toHeader(oauth.authorize(requestData, token))
+
         return {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.accessToken}`
+            ...header,
+            ...oauthHeader
         }
     }
 
@@ -50,16 +84,18 @@ class MagentoApi {
      */
     async get (path: string, data: any|null = null): Promise<any> {
         try {
+            const url = `${this.getUrl()}${path}`;
+            
             if (data) {
-                return await axios.get(`${this.getUrl()}${path}`, {
-                    headers: this.getHeaders() as any,
+                return await axios.get(url, {
+                    headers: this.getHeaders(url, "GET") as any,
                     params: {
                         searchCriteria: data
                     }
                 });
             } else {
                 return await axios.get(`${this.getUrl()}${path}`, {
-                    headers: this.getHeaders() as any
+                    headers: this.getHeaders(url, "GET") as any
                 });
             }
         } catch (error:any) {
@@ -75,8 +111,9 @@ class MagentoApi {
      */
     async post (path: string, data: any): Promise<any> {
         try {
-            return await axios.post(`${this.getUrl()}${path}`, data, {
-                headers: this.getHeaders() as any
+            const url = `${this.getUrl()}${path}`;
+            return await axios.post(url, data, {
+                headers: this.getHeaders(url, "POST") as any
             });
         } catch (error:any) {
             console.error(error);
@@ -91,8 +128,9 @@ class MagentoApi {
      */
     async put (path: string, data: any): Promise<any> {
         try {
-            return await axios.put(`${this.getUrl()}${path}`, data, {
-                headers: this.getHeaders() as any
+            const url = `${this.getUrl()}${path}`;
+            return await axios.put(url, data, {
+                headers: this.getHeaders(url, "PUT") as any
             });
         } catch (error:any) {
             console.error(error);
@@ -106,8 +144,9 @@ class MagentoApi {
      */
     async delete (path: string): Promise<any> {
         try {
-            return await axios.delete(`${this.getUrl()}${path}`, {
-                headers: this.getHeaders() as any
+            const url = `${this.getUrl()}${path}`;
+            return await axios.delete(url, {
+                headers: this.getHeaders(url, "DELETE") as any
             });
         } catch (error:any) {
             console.error(error);
