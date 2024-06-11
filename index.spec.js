@@ -105,7 +105,7 @@ describe('# Requests', function () {
     });
 
     it('should execute get requests without params non https', async function () {
-        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria=all', {
+        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria=', {
             status: 200,
             response: {
                 success: true,
@@ -127,7 +127,7 @@ describe('# Requests', function () {
             'tokenSecret': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
         });
 
-        moxios.stubRequest('http://magento.dev/rest/V1/orders?searchCriteria=all', {
+        moxios.stubRequest('http://magento.dev/rest/V1/orders?searchCriteria=', {
             status: 200,
             response: {
                 success: true,
@@ -149,7 +149,7 @@ describe('# Requests', function () {
             'tokenSecret': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
         });
 
-        moxios.stubRequest('http://magento.dev/rest/V1/orders?searchCriteria=all', {
+        moxios.stubRequest('http://magento.dev/rest/V1/orders?searchCriteria=', {
             status: 200,
             response: {
                 success: true,
@@ -163,7 +163,7 @@ describe('# Requests', function () {
     });
 
     it('should execute get requests with empty object params https', async function () {
-        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria=all', {
+        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria=', {
             status: 200,
             response: {
                 success: true,
@@ -202,7 +202,7 @@ describe('# Requests', function () {
             'sha': 256
         });
 
-        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria=all', {
+        moxios.stubRequest('https://magento.dev/rest/V1/orders?searchCriteria=', {
             status: 200,
             response: {
                 success: true,
